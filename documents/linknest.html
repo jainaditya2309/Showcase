@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkNest - Complete Project Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --purple-gradient: linear-gradient(135deg, #8B5CF6, #A855F7);
+            --dark-gradient: linear-gradient(135deg, #1F2937, #374151);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #1F2937;
+            background: #0a0a0a;
+            min-height: 100vh;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            position: relative;
+        }
+
+        /* Enhanced background animations */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 90%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 70%, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
+            z-index: -2;
+            animation: backgroundFloat 20s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%);
+            background-size: 60px 60px;
+            z-index: -1;
+            opacity: 0.5;
+            animation: patternMove 30s linear infinite;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg) scale(1); 
+                opacity: 1;
+            }
+            25% { 
+                transform: translate(30px, -20px) rotate(1deg) scale(1.02); 
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(-15px, 15px) rotate(-0.5deg) scale(0.98); 
+                opacity: 1;
+            }
+            75% { 
+                transform: translate(-25px, -10px) rotate(0.8deg) scale(1.01); 
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes patternMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at top left, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+            border-radius: var(--border-radius);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: 
+                linear-gradient(135deg, #8B5CF6 0%, #A855F7 50%, #EC4899 100%),
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            margin: -20px -20px 40px -20px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(139, 92, 246, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%),
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            transform: translateX(-100%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        /* Add floating particles */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 0, 0.8);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            box-shadow: 0 0 6px rgba(255, 255, 0, 0.4);
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+            animation-duration: 20s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(255, 0, 255, 0.8);
+            box-shadow: 0 0 6px rgba(255, 0, 255, 0.4);
+            animation-duration: 18s;
+        }
+
+        .particle:nth-child(4n) {
+            background: rgba(0, 255, 0, 0.8);
+            box-shadow: 0 0 6px rgba(0, 255, 0, 0.4);
+            animation-duration: 22s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Enhanced shimmer animation */
+        @keyframes shimmer {
+            0% { 
+                transform: translateX(-100%) translateY(0%); 
+                opacity: 0;
+            }
+            50% { 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(100%) translateY(0%); 
+                opacity: 0;
+            }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, #ffffff, #e0e7ff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+            letter-spacing: -0.02em;
+        }
+
+        @keyframes textGlow {
+            from { 
+                filter: brightness(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); 
+            }
+            to { 
+                filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); 
+            }
+        }
+
+        .header p {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 400;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0 0 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .badge:hover::before {
+            left: 100%;
+        }
+
+        .badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: white;
+        }
+
+        .badge.nextjs { 
+            background: linear-gradient(135deg, #000000, #333333);
+        }
+        .badge.mongodb { 
+            background: linear-gradient(135deg, #47A248, #4DB851);
+        }
+        .badge.tailwind { 
+            background: linear-gradient(135deg, #06B6D4, #0891B2);
+        }
+        .badge.nodejs {
+            background: linear-gradient(135deg, #68a063, #4f7942);
+            color: white;
+        }
+        .badge.express {
+            background: linear-gradient(135deg, #333, #000);
+            color: white;
+        }
+        .badge.pwa { 
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+            margin: 50px 0 30px 0;
+            padding-bottom: 15px;
+            border-bottom: 4px solid transparent;
+            background: linear-gradient(90deg, #8B5CF6, #A855F7) padding-box,
+                        linear-gradient(90deg, #8B5CF6, #A855F7) border-box;
+            border-image: linear-gradient(90deg, #8B5CF6, #A855F7) 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: -0.01em;
+            text-rendering: optimizeLegibility;
+        }
+
+        h2::before {
+            content: attr(data-emoji);
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            padding: 10px 14px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 
+                0 4px 15px rgba(139, 92, 246, 0.3),
+                0 2px 8px rgba(139, 92, 246, 0.2);
+            filter: brightness(1.1);
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            color: #374151;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 600;
+            margin: 30px 0 20px 0;
+            position: relative;
+            padding-left: 20px;
+            letter-spacing: -0.005em;
+            text-rendering: optimizeLegibility;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--purple-gradient);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #FAFBFC, #F1F5F9);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--purple-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .feature-card h4 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4B5563;
+            transition: color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.005em;
+            text-rendering: optimizeLegibility;
+        }
+
+        .feature-list li:hover {
+            color: #1F2937;
+        }
+
+        .feature-list li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .feature-list li strong {
+            color: #7C3AED;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .tech-category {
+            background: linear-gradient(135deg, #FAFBFC, #F8FAFC);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #E5E7EB;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--purple-gradient);
+        }
+
+        .tech-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .tech-category h4 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid #F3F4F6;
+            transition: background-color 0.3s ease;
+        }
+
+        .tech-item:last-child {
+            border-bottom: none;
+        }
+
+        .tech-item:hover {
+            background-color: rgba(139, 92, 246, 0.05);
+            border-radius: 8px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .tech-item strong {
+            color: #7C3AED;
+            margin-right: 15px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            min-width: 120px;
+            font-size: 0.9rem;
+        }
+
+        .tech-item span {
+            color: #6B7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block {
+            background: linear-gradient(135deg, #1F2937, #111827);
+            color: #F9FAFB;
+            padding: 30px;
+            border-radius: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            margin: 30px 0;
+            overflow-x: auto;
+            position: relative;
+            border: 1px solid #374151;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(90deg, #EF4444, #F59E0B, #10B981);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .code-block::after {
+            content: '● ● ●';
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            color: #1F2937;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+        }
+
+        .code-block pre {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .api-endpoint {
+            background: linear-gradient(135deg, #F0FDF4, #ECFDF5);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid #10B981;
+            position: relative;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .api-endpoint::before {
+            content: '🔌';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .api-endpoint:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .api-endpoint h4 {
+            font-family: 'Poppins', sans-serif;
+            color: #059669;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .method {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+            border-radius: 20px;
+            border: 2px solid #8B5CF6;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+
+        .metric-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #7C3AED;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(124, 58, 237, 0.1);
+        }
+
+        .metric-label {
+            color: #6B7280;
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .deployment-checklist {
+            background: linear-gradient(135deg, #F0FDF4, #ECFDF5);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #10B981;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deployment-checklist::before {
+            content: '✅';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border-radius: 8px;
+            margin: 0 -10px;
+        }
+
+        .checklist-item:hover {
+            background-color: rgba(16, 185, 129, 0.1);
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.3);
+            accent-color: #10B981;
+        }
+
+        .checklist-item label {
+            color: #374151;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--dark-gradient);
+            margin: 60px -20px -20px -20px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .footer h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .footer h3::before {
+            display: none;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .contact-link:hover::before {
+            left: 100%;
+        }
+
+        .contact-link:hover {
+            background: linear-gradient(135deg, #3730A3, #6D28D9);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer p {
+            font-family: 'Inter', sans-serif;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .footer p strong {
+            color: #A855F7;
+            font-weight: 600;
+        }
+
+        .toc {
+            background: linear-gradient(135deg, #FAFBFC, #F8FAFC);
+            padding: 35px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px solid #E5E7EB;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .toc::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--purple-gradient);
+        }
+
+        .toc h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .toc h3::before {
+            display: none;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 40px;
+        }
+
+        .toc li {
+            padding: 10px 0;
+            break-inside: avoid;
+        }
+
+        .toc a {
+            color: #4F46E5;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .toc a::before {
+            content: '→';
+            color: #8B5CF6;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .toc a:hover {
+            color: #7C3AED;
+            background-color: rgba(139, 92, 246, 0.1);
+            transform: translateX(5px);
+        }
+
+        .toc a:hover::before {
+            transform: translateX(3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 40px 0;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .toc ul {
+                columns: 1;
+            }
+            
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+            
+            .performance-metrics {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .metric-card {
+                padding: 20px 15px;
+            }
+            
+            .metric-number {
+                font-size: 2rem;
+            }
+            
+            .contact-links {
+                gap: 15px;
+            }
+            
+            .contact-link {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .badges {
+                gap: 10px;
+            }
+            
+            .badge {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+            
+            .feature-card {
+                padding: 25px 20px;
+            }
+            
+            .tech-category {
+                padding: 20px;
+            }
+            
+            .code-block {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--purple-gradient);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+            transition: var(--transition);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 12px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.1s; }
+        section:nth-child(3) { animation-delay: 0.2s; }
+        section:nth-child(4) { animation-delay: 0.3s; }
+        section:nth-child(5) { animation-delay: 0.4s; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--purple-gradient);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #7C3AED, #9333EA);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Floating particles -->
+        <div class="floating-particles">
+            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+            <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+            <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+            <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+            <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+            <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+        </div>
+
+        <header class="header">
+            <h1>🌟 LinkNest</h1>
+            <p>Complete Project Documentation - Modern "Link in Bio" Web Application</p>
+            <div class="badges">
+                <a href="https://nextjs.org/" class="badge nextjs">Next.js</a>
+                <a href="https://nodejs.org/" class="badge nodejs">Node.js</a>
+                <a href="https://expressjs.com/" class="badge express">Express</a>
+                <a href="https://tailwindcss.com/" class="badge tailwind">Tailwind</a>
+                <a href="https://mongodb.com/" class="badge mongodb">MongoDB</a>
+            </div>
+        </header>
+
+        <div class="toc">
+            <h3>📋 Table of Contents</h3>
+            <ul>
+                <li><a href="#overview">Project Overview</a></li>
+                <li><a href="#features">Key Features</a></li>
+                <li><a href="#tech-stack">Tech Stack</a></li>
+                <li><a href="#structure">Project Structure</a></li>
+                <li><a href="#api">API Endpoints</a></li>
+                <li><a href="#database">Database Schema</a></li>
+                <li><a href="#design">UI/UX Design</a></li>
+                <li><a href="#components">Key Components</a></li>
+                <li><a href="#performance">Performance</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#mobile">Mobile Experience</a></li>
+                <li><a href="#future">Future Plans</a></li>
+                <li><a href="#deployment">Deployment</a></li>
+                <li><a href="#statistics">Statistics</a></li>
+                <li><a href="#business">Business Value</a></li>
+                <li><a href="#contributing">Contributing</a></li>
+            </ul>
+        </div>
+
+        <section id="overview">
+            <h2 data-emoji="📋">Project Overview</h2>
+            <p><strong>LinkNest</strong> is a modern "Link in Bio" web application that provides users with the ability to create personalized pages where they can organize all their important links. It offers functionality similar to Linktree but with a modern tech stack and enhanced features.</p>
+        </section>
+
+        <section id="features">
+            <h2 data-emoji="🎯">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>✨ Core Functionality</h4>
+                    <ul class="feature-list">
+                        <li><strong>Custom Handle Creation:</strong> Users can create their unique handle for personalized links</li>
+                        <li><strong>Multiple Links Management:</strong> Add unlimited links with custom text descriptions</li>
+                        <li><strong>Profile Customization:</strong> Add profile pictures and detailed descriptions</li>
+                        <li><strong>Responsive Design:</strong> Optimized for both mobile and desktop devices</li>
+                        <li><strong>Real-time Validation:</strong> Handle availability check instantly</li>
+                        <li><strong>Animated UI:</strong> Smooth animations using Framer Motion</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🎨 Visual Features</h4>
+                    <ul class="feature-list">
+                        <li><strong>Glass Morphism UI:</strong> Modern transparent/blur effects</li>
+                        <li><strong>Gradient Backgrounds:</strong> Beautiful purple-to-black gradients</li>
+                        <li><strong>Animated Elements:</strong> Floating particles, hover effects</li>
+                        <li><strong>Mobile Preview:</strong> Live mobile mockup during creation</li>
+                        <li><strong>Interactive Cards:</strong> Hover effects and smooth animations</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📱 PWA Support</h4>
+                    <ul class="feature-list">
+                        <li><strong>Offline Functionality:</strong> Works without internet</li>
+                        <li><strong>Service Workers:</strong> Caching for better performance</li>
+                        <li><strong>Installable:</strong> Can be installed like an app on mobile devices</li>
+                        <li><strong>Manifest File:</strong> Complete PWA configuration</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack">
+            <h2 data-emoji="🛠️">Tech Stack & Architecture</h2>
+            <div class="tech-stack">
+                <div class="tech-category">
+                    <h4>Frontend Technologies</h4>
+                    <div class="tech-item">
+                        <strong>Next.js 15:</strong> <span>React framework with App Router</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>React 19:</strong> <span>Latest React with Hooks</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Tailwind CSS:</strong> <span>Utility-first CSS framework</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Responsive Design:</strong> <span>Mobile-first approach</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h4>Backend Technologies</h4>
+                    <div class="tech-item">
+                        <strong>Node.js:</strong> <span>JavaScript runtime environment</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Express.js:</strong> <span>Web application framework</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>MongoDB:</strong> <span>NoSQL document database</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Node.js:</strong> <span>Server runtime environment</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h4>Development Tools</h4>
+                    <div class="tech-item">
+                        <strong>ESLint:</strong> <span>Code linting</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>TypeScript:</strong> <span>Type safety (partial)</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>PostCSS:</strong> <span>CSS processing</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2 data-emoji="📁">Project Structure</h2>
+            <div class="code-block">
+                <pre>
+linknest/
+├── app/                    # Next.js App Router
+│   ├── api/               # API Routes
+│   │   ├── link/         # Link creation API
+│   │   └── checkhandle/  # Handle validation API
+│   ├── [handle]/         # Dynamic user pages
+│   ├── generate/         # Link creation page
+│   ├── offline/          # PWA offline page
+│   ├── layout.js         # Root layout
+│   ├── page.js           # Home page
+│   ├── globals.css       # Global styles
+│   └── sitemap.ts        # SEO sitemap
+├── component/            # React Components
+│   ├── Navbar.js         # Navigation component
+│   ├── Footer.js         # Footer component
+│   └── PWAInstallPrompt.js # PWA install prompt
+├── lib/                  # Utility libraries
+│   └── mongobd.js        # MongoDB connection
+├── public/               # Static assets
+│   ├── images/           # Profile pictures, logos
+│   ├── gifs/             # Animation GIFs
+│   └── manifest.json     # PWA manifest
+├── package.json          # Dependencies
+├── next.config.mjs       # Next.js configuration
+├── tailwind.config.js    # Tailwind CSS config
+└── README.md             # Project documentation
+                </pre>
+            </div>
+        </section>
+
+        <section id="api">
+            <h2 data-emoji="🔌">API Endpoints</h2>
+            
+            <div class="api-endpoint">
+                <h4>1. Link Creation API</h4>
+                <p><span class="method">POST</span> <code>/api/link</code></p>
+                <p><strong>Purpose:</strong> Creates new link tree profiles with custom links</p>
+                <div class="code-block">
+                    <pre>
+{
+  "handle": "username",
+  "links": [
+    {
+      "link": "https://example.com",
+      "linktext": "My Website"
+    }
+  ],
+  "pic": "profile_image_url",
+  "des": "Profile description"
+}
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="api-endpoint">
+                <h4>2. Handle Check API</h4>
+                <p><span class="method">GET</span> <code>/api/checkhandle</code></p>
+                <p><strong>Purpose:</strong> Validates username availability for registration</p>
+                <p><strong>Query Parameter:</strong> <code>?handle=username</code></p>
+            </div>
+        </section>
+
+        <section id="database">
+            <h2 data-emoji="🗄️">Database Schema</h2>
+            <h3>MongoDB Collection: `links`</h3>
+            <div class="code-block">
+                <pre>
+{
+  _id: ObjectId,
+  handle: String,          // Unique username
+  links: [                 // Array of links
+    {
+      link: String,        // URL
+      linktext: String     // Display text
+    }
+  ],
+  pic: String,             // Profile image URL
+  des: String,             // Profile description
+  createdAt: Date,         // Creation timestamp
+  updatedAt: Date          // Last update timestamp
+}
+                </pre>
+            </div>
+        </section>
+
+        <section id="design">
+            <h2 data-emoji="🎨">UI/UX Design Elements</h2>
+            <h3>Color Scheme</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Primary Colors</h4>
+                    <p>Purple gradients (#8B5CF6 to #A855F7)</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Secondary Colors</h4>
+                    <p>Pink accents (#EC4899)</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Background</h4>
+                    <p>Dark gradients (Gray-950 to Purple-950)</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Accents</h4>
+                    <p>Blue, Green for highlights</p>
+                </div>
+            </div>
+            
+            <h3>Animation Features</h3>
+            <ul class="feature-list">
+                <li><strong>Entrance Animations:</strong> Slide-in effects using Framer Motion</li>
+                <li><strong>Hover Effects:</strong> Scale, rotate, translate transformations</li>
+                <li><strong>Background Elements:</strong> Floating orbs, particles</li>
+                <li><strong>Loading States:</strong> Smooth transitions between states</li>
+                <li><strong>Micro-interactions:</strong> Button clicks, input focus</li>
+            </ul>
+        </section>
+
+        <section id="components">
+            <h2 data-emoji="🧩">Key Components</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>1. Navbar Component</h4>
+                    <ul class="feature-list">
+                        <li>Transparent glass effect</li>
+                        <li>Conditional rendering</li>
+                        <li>Framer Motion animations</li>
+                        <li>Responsive navigation</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>2. Home Page</h4>
+                    <ul class="feature-list">
+                        <li>Hero section with input</li>
+                        <li>Feature showcase</li>
+                        <li>Dynamic stats</li>
+                        <li>Interactive mobile mockup</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>3. Generate Page</h4>
+                    <ul class="feature-list">
+                        <li>Form management</li>
+                        <li>Real-time validation</li>
+                        <li>Image upload handling</li>
+                        <li>Success feedback</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>4. Profile Pages</h4>
+                    <ul class="feature-list">
+                        <li>Dynamic routing</li>
+                        <li>Beautiful link display</li>
+                        <li>Animated social icons</li>
+                        <li>SEO optimized</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="performance">
+            <h2 data-emoji="🚀">Performance Optimizations</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Next.js Features</h4>
+                    <ul class="feature-list">
+                        <li>Server-Side Rendering</li>
+                        <li>Static Generation</li>
+                        <li>Image Optimization</li>
+                        <li>Code Splitting</li>
+                        <li>Dynamic Imports</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>PWA Optimizations</h4>
+                    <ul class="feature-list">
+                        <li>Service Worker caching</li>
+                        <li>App-like experience</li>
+                        <li>Optimized Lighthouse scores</li>
+                        <li>Gzipped assets</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Database Optimizations</h4>
+                    <ul class="feature-list">
+                        <li>Connection pooling</li>
+                        <li>Efficient indexing</li>
+                        <li>Robust error handling</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="security">
+            <h2 data-emoji="🔐">Security Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Input Validation</h4>
+                    <ul class="feature-list">
+                        <li>Server-side validation</li>
+                        <li>XSS protection</li>
+                        <li>CSRF protection</li>
+                        <li>Rate limiting</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Database Security</h4>
+                    <ul class="feature-list">
+                        <li>Encrypted connections</li>
+                        <li>Environment variables</li>
+                        <li>Secure error handling</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="mobile">
+            <h2 data-emoji="📱">Mobile Experience</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>PWA Features</h4>
+                    <ul class="feature-list">
+                        <li>Custom install prompt</li>
+                        <li>Offline mode</li>
+                        <li>Native app feel</li>
+                        <li>Home screen icon</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Touch Optimizations</h4>
+                    <ul class="feature-list">
+                        <li>Large touch targets</li>
+                        <li>Smooth swipe gestures</li>
+                        <li>Visual touch feedback</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="future">
+            <h2 data-emoji="🔮">Future Enhancements</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Planned Features</h4>
+                    <ul class="feature-list">
+                        <li>User authentication system</li>
+                        <li>Analytics dashboard</li>
+                        <li>Custom themes</li>
+                        <li>QR code generator</li>
+                        <li>Social media integration</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Technical Improvements</h4>
+                    <ul class="feature-list">
+                        <li>TypeScript migration</li>
+                        <li>Testing suite</li>
+                        <li>CI/CD pipeline</li>
+                        <li>Error tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="deployment">
+            <h2 data-emoji="🚀">Deployment Guide</h2>
+            <h3>Environment Setup</h3>
+            <div class="code-block">
+                <pre>
+# Install dependencies
+npm install
+
+# Set environment variables
+MONGODB_URI=your_mongodb_connection_string
+NEXT_PUBLIC_HOST=your_domain_url
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+                </pre>
+            </div>
+            
+            <h3>Production Checklist</h3>
+            <div class="deployment-checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" id="mongodb"> <label for="mongodb">MongoDB cluster configured</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="env"> <label for="env">Environment variables set</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="domain"> <label for="domain">Domain configured</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ssl"> <label for="ssl">SSL certificate installed</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="pwa"> <label for="pwa">PWA manifest configured</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="analytics"> <label for="analytics">Analytics tracking added</label>
+                </div>
+            </div>
+        </section>
+
+        <section id="statistics">
+            <h2 data-emoji="📊">Project Statistics</h2>
+            <div class="performance-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">50+</div>
+                    <div class="metric-label">Total Files</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">2000+</div>
+                    <div class="metric-label">Lines of Code</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">10+</div>
+                    <div class="metric-label">React Components</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">2</div>
+                    <div class="metric-label">API Endpoints</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">15+</div>
+                    <div class="metric-label">Dependencies</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">100%</div>
+                    <div class="metric-label">Mobile Responsive</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">90+</div>
+                    <div class="metric-label">PWA Score</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="business">
+            <h2 data-emoji="🎯">Business Value</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>👥 For Users</h4>
+                    <ul class="feature-list">
+                        <li><strong>Easy Setup:</strong> Complete link tree setup in just minutes</li>
+                        <li><strong>Professional Look:</strong> Modern and clean design aesthetics</li>
+                        <li><strong>Free to Use:</strong> No subscription required</li>
+                        <li><strong>Mobile Optimized:</strong> Perfect mobile experience</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>💼 For Business</h4>
+                    <ul class="feature-list">
+                        <li><strong>Scalable Architecture:</strong> Handle thousands of users</li>
+                        <li><strong>Low Maintenance:</strong> Minimal server requirements</li>
+                        <li><strong>SEO Friendly:</strong> Good search visibility</li>
+                        <li><strong>Monetization Ready:</strong> Easy to add premium features</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="contributing">
+            <h2 data-emoji="🤝">Contributing</h2>
+            <h3>Development Process</h3>
+            <ol>
+                <li>Fork the repository</li>
+                <li>Create feature branch</li>
+                <li>Make changes with proper commit messages</li>
+                <li>Test thoroughly</li>
+                <li>Submit pull request</li>
+            </ol>
+            
+            <h3>Code Standards</h3>
+            <ul class="feature-list">
+                <li><strong>ES6+ JavaScript:</strong> Modern syntax</li>
+                <li><strong>Component Structure:</strong> Reusable components</li>
+                <li><strong>Responsive Design:</strong> Mobile-first approach</li>
+                <li><strong>Performance:</strong> Optimized code</li>
+            </ul>
+        </section>
+
+        <footer class="footer">
+            <h3>📞 Contact & Support</h3>
+            <div class="contact-links">
+                <a href="https://github.com/ADITYA9456" class="contact-link">GitHub Profile</a>
+                <a href="https://github.com/ADITYA9456/LinkNest" class="contact-link">Repository</a>
+            </div>
+            <p><strong>Developer:</strong> Aditya Jain</p>
+            <p><strong>Tech Stack:</strong> Next.js + Node.js + Express + Tailwind + MongoDB</p>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                <em>This documentation covers the complete LinkNest project architecture, features, and implementation details. 
+                The project demonstrates modern web development practices with a focus on performance, user experience, and scalability.</em>
+            </p>
+            <p style="margin-top: 15px;">Made with ❤️ by Aditya Jain</p>
+        </footer>
+    </div>
+
+    <!-- Scroll to top button -->
+    <a href="#" class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add loading effect to cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and sections
+        document.querySelectorAll('.feature-card, .tech-category, .metric-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

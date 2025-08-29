@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chai Express - Complete Project Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --chai-gradient: linear-gradient(135deg, #D97706, #F59E0B);
+            --dark-gradient: linear-gradient(135deg, #1F2937, #374151);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #1F2937;
+            background: #0a0a0a;
+            min-height: 100vh;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* Enhanced background animations */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 90%, rgba(255, 0, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 70%, rgba(0, 255, 0, 0.08) 0%, transparent 50%);
+            z-index: -2;
+            animation: backgroundFloat 20s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%);
+            background-size: 60px 60px;
+            z-index: -1;
+            opacity: 0.5;
+            animation: patternMove 30s linear infinite;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg) scale(1); 
+                opacity: 1;
+            }
+            25% { 
+                transform: translate(30px, -20px) rotate(1deg) scale(1.02); 
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(-15px, 15px) rotate(-0.5deg) scale(0.98); 
+                opacity: 1;
+            }
+            75% { 
+                transform: translate(-25px, -10px) rotate(0.8deg) scale(1.01); 
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes patternMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at top left, rgba(217, 119, 6, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+            border-radius: var(--border-radius);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Floating particles */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 0, 0.8);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            box-shadow: 0 0 6px rgba(255, 255, 0, 0.4);
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+            animation-duration: 20s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(255, 0, 255, 0.8);
+            box-shadow: 0 0 6px rgba(255, 0, 255, 0.4);
+            animation-duration: 18s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: 
+                linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #EA580C 100%),
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            margin: -20px -20px 40px -20px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(217, 119, 6, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%),
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            transform: translateX(-100%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        /* Enhanced shimmer animation */
+        @keyframes shimmer {
+            0% { 
+                transform: translateX(-100%) translateY(0%); 
+                opacity: 0;
+            }
+            50% { 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(100%) translateY(0%); 
+                opacity: 0;
+            }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, #ffffff, #fef3c7, #fed7aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+            letter-spacing: -0.02em;
+        }
+
+        @keyframes textGlow {
+            from { 
+                filter: brightness(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); 
+            }
+            to { 
+                filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); 
+            }
+        }
+
+        .header p {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 400;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0 0 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .badge:hover::before {
+            left: 100%;
+        }
+
+        .badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: white;
+        }
+
+        .badge.nextjs { 
+            background: linear-gradient(135deg, #000000, #333333);
+        }
+        .badge.mongodb { 
+            background: linear-gradient(135deg, #47A248, #4DB851);
+        }
+        .badge.razorpay { 
+            background: linear-gradient(135deg, #3395FF, #528FF0);
+        }
+        .badge.oauth { 
+            background: linear-gradient(135deg, #333333, #24292E);
+        }
+        .badge.nodejs {
+            background: linear-gradient(135deg, #68a063, #4f7942);
+            color: white;
+        }
+        .badge.express {
+            background: linear-gradient(135deg, #333, #000);
+            color: white;
+        }
+        .badge.tailwind {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: white;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+            margin: 50px 0 30px 0;
+            padding-bottom: 15px;
+            border-bottom: 4px solid transparent;
+            background: linear-gradient(90deg, #D97706, #F59E0B) padding-box,
+                        linear-gradient(90deg, #D97706, #F59E0B) border-box;
+            border-image: linear-gradient(90deg, #D97706, #F59E0B) 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: -0.01em;
+            text-rendering: optimizeLegibility;
+        }
+
+        h2::before {
+            content: attr(data-emoji);
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #D97706, #F59E0B);
+            padding: 10px 14px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 
+                0 4px 15px rgba(217, 119, 6, 0.3),
+                0 2px 8px rgba(217, 119, 6, 0.2);
+            filter: brightness(1.1);
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            color: #374151;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 600;
+            margin: 30px 0 20px 0;
+            position: relative;
+            padding-left: 20px;
+            letter-spacing: -0.005em;
+            text-rendering: optimizeLegibility;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--chai-gradient);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #FAFBFC, #F1F5F9);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(217, 119, 6, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--chai-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+
+        .feature-card h4 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4B5563;
+            transition: color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.005em;
+            text-rendering: optimizeLegibility;
+        }
+
+        .feature-list li:hover {
+            color: #1F2937;
+        }
+
+        .feature-list li::before {
+            content: "☕";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #D97706, #F59E0B);
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+        }
+
+        .feature-list li strong {
+            color: #EA580C;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .toc {
+            background: linear-gradient(135deg, #FAFBFC, #F8FAFC);
+            padding: 35px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px solid #E5E7EB;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .toc::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--chai-gradient);
+        }
+
+        .toc h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .toc h3::before {
+            display: none;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 40px;
+        }
+
+        .toc li {
+            padding: 10px 0;
+            break-inside: avoid;
+        }
+
+        .toc a {
+            color: #EA580C;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .toc a::before {
+            content: '→';
+            color: #D97706;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .toc a:hover {
+            color: #DC2626;
+            background-color: rgba(217, 119, 6, 0.1);
+            transform: translateX(5px);
+        }
+
+        .toc a:hover::before {
+            transform: translateX(3px);
+        }
+
+        .code-block {
+            background: linear-gradient(135deg, #1F2937, #111827);
+            color: #F9FAFB;
+            padding: 30px;
+            border-radius: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            margin: 30px 0;
+            overflow-x: auto;
+            position: relative;
+            border: 1px solid #374151;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(90deg, #EF4444, #F59E0B, #10B981);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .code-block::after {
+            content: '● ● ●';
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            color: #1F2937;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+        }
+
+        .code-block pre {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--dark-gradient);
+            margin: 60px -20px -20px -20px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .footer h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .footer h3::before {
+            display: none;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            background: linear-gradient(135deg, #D97706, #F59E0B);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+        }
+
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .contact-link:hover::before {
+            left: 100%;
+        }
+
+        .contact-link:hover {
+            background: linear-gradient(135deg, #B45309, #D97706);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(217, 119, 6, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer p {
+            font-family: 'Inter', sans-serif;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .footer p strong {
+            color: #F59E0B;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 40px 0;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .toc ul {
+                columns: 1;
+            }
+            
+            .contact-links {
+                gap: 15px;
+            }
+            
+            .contact-link {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .badges {
+                gap: 10px;
+            }
+            
+            .badge {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+            
+            .feature-card {
+                padding: 25px 20px;
+            }
+            
+            .code-block {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--chai-gradient);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+            transition: var(--transition);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 12px 25px rgba(217, 119, 6, 0.4);
+        }
+
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.1s; }
+        section:nth-child(3) { animation-delay: 0.2s; }
+        section:nth-child(4) { animation-delay: 0.3s; }
+        section:nth-child(5) { animation-delay: 0.4s; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--chai-gradient);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #B45309, #D97706);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Floating particles -->
+        <div class="floating-particles">
+            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+            <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+            <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+            <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+            <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+            <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+        </div>
+
+        <header class="header">
+            <h1>☕ Chai Express</h1>
+            <p>Complete Project Documentation - Modern Donation Platform with Chai Theme</p>
+            <div class="badges">
+                <a href="https://nextjs.org/" class="badge nextjs">Next.js</a>
+                <a href="https://nodejs.org/" class="badge nodejs">Node.js</a>
+                <a href="https://expressjs.com/" class="badge express">Express</a>
+                <a href="https://tailwindcss.com/" class="badge tailwind">Tailwind</a>
+                <a href="https://mongodb.com/" class="badge mongodb">MongoDB</a>
+                <a href="https://razorpay.com/" class="badge razorpay">Razorpay</a>
+                <a href="#" class="badge oauth">Auth</a>
+            </div>
+        </header>
+
+        <div class="toc">
+            <h3>📋 Table of Contents</h3>
+            <ul>
+                <li><a href="#overview">Project Overview</a></li>
+                <li><a href="#tech-stack">Tech Stack</a></li>
+                <li><a href="#features">Core Features</a></li>
+                <li><a href="#structure">Project Structure</a></li>
+                <li><a href="#database">Database Schema</a></li>
+                <li><a href="#flow">Application Flow</a></li>
+                <li><a href="#api">API Endpoints</a></li>
+                <li><a href="#ui">UI/UX Features</a></li>
+                <li><a href="#security">Security Features</a></li>
+                <li><a href="#deployment">Deployment Setup</a></li>
+                <li><a href="#pages">Pages Overview</a></li>
+                <li><a href="#business">Business Logic</a></li>
+                <li><a href="#future">Future Enhancements</a></li>
+                <li><a href="#support">Support & Contact</a></li>
+            </ul>
+        </div>
+
+        <section id="overview">
+            <h2 data-emoji="🚀">Project Overview</h2>
+            <p><strong>Chai Express</strong> is a modern web application built with Next.js. It provides users with the ability to create personalized donation pages where supporters can give them "chai donations". This is essentially a crowdfunding/donation platform that comes with a unique Indian chai theme.</p>
+            <br>
+            <p><strong>Core Philosophy:</strong> "Support Through Chai" - The idea is to make small donations as common and social as sharing a cup of chai (tea) with someone.</p>
+        </section>
+
+        <section id="tech-stack">
+            <h2 data-emoji="🛠️">Tech Stack</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Frontend Technologies</h4>
+                    <ul class="feature-list">
+                        <li><strong>Next.js 15:</strong> React framework with App Router</li>
+                        <li><strong>React 19:</strong> Frontend library</li>
+                        <li><strong>Tailwind CSS:</strong> Utility-first CSS framework</li>
+                        <li><strong>Responsive Design:</strong> Mobile-optimized interface</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Backend Technologies</h4>
+                    <ul class="feature-list">
+                        <li><strong>Node.js:</strong> JavaScript runtime environment</li>
+                        <li><strong>Express.js:</strong> Web application framework</li>
+                        <li><strong>MongoDB:</strong> NoSQL document database</li>
+                        <li><strong>API Routes:</strong> Server-side endpoints</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Authentication & Payment</h4>
+                    <ul class="feature-list">
+                        <li><strong>NextAuth.js:</strong> Authentication library</li>
+                        <li><strong>GitHub OAuth:</strong> Primary authentication provider</li>
+                        <li><strong>Razorpay:</strong> Payment gateway integration</li>
+                        <li><strong>Session Management:</strong> Secure user sessions</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <h2 data-emoji="🎯">Core Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>🔐 User Authentication</h4>
+                    <ul class="feature-list">
+                        <li><strong>GitHub OAuth Integration:</strong> Sign in with GitHub accounts seamlessly</li>
+                        <li><strong>Automatic User Creation:</strong> New users automatically created in database</li>
+                        <li><strong>Session Management:</strong> Persistent login with NextAuth.js</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>👤 User Profiles</h4>
+                    <ul class="feature-list">
+                        <li><strong>Dynamic Routes:</strong> Each user gets a personalized page</li>
+                        <li><strong>Profile Customization:</strong> Update profile information easily</li>
+                        <li><strong>Profile Pictures:</strong> Support for profile and cover images</li>
+                        <li><strong>Razorpay Integration:</strong> Add payment credentials for donations</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>💳 Payment System</h4>
+                    <ul class="feature-list">
+                        <li><strong>Razorpay Integration:</strong> Secure payment processing</li>
+                        <li><strong>Custom Amounts:</strong> Supporters can choose their donation amount</li>
+                        <li><strong>Payment Messages:</strong> Optional messages with donations</li>
+                        <li><strong>Payment History:</strong> Track all received payments and donations</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📊 Dashboard</h4>
+                    <ul class="feature-list">
+                        <li><strong>User Management:</strong> Profile editing and settings management</li>
+                        <li><strong>Payment Analytics:</strong> View received donations and statistics</li>
+                        <li><strong>Account Settings:</strong> Manage Razorpay credentials securely</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2 data-emoji="📁">Project Structure</h2>
+            <div class="code-block">
+                <pre>
+chai-express/
+├── app/                          # Next.js App Router directory
+│   ├── globals.css              # Global styles
+│   ├── layout.js                # Root layout component
+│   ├── page.js                  # Home page
+│   ├── [username]/              # Dynamic user pages
+│   │   └── page.js              # User profile page
+│   ├── about/                   # About page
+│   ├── api/                     # API routes
+│   │   ├── auth/               # Authentication endpoints
+│   │   │   └── [...nextauth]/  # NextAuth.js dynamic route
+│   │   └── razorpay/           # Payment webhook
+│   ├── components/             # Reusable components
+│   │   ├── Dashboard.js        # User dashboard
+│   │   ├── Footer.js           # Footer component
+│   │   ├── Navbar.js           # Navigation bar
+│   │   ├── PaymentPage.js      # Payment interface
+│   │   └── Sessionwraper.js    # Session wrapper
+│   ├── contact/                # Contact page
+│   ├── dashboard/              # Dashboard page
+│   ├── login/                  # Login page
+│   └── models/                 # Database schemas
+│       ├── Payment.js          # Payment model
+│       └── User.js             # User model
+├── public/                     # Static assets
+│   ├── db/                     # Database connection
+│   ├── gif/                    # Animated images
+│   └── img/                    # Static images
+├── actions/                    # Server actions
+└── Configuration files
+                </pre>
+            </div>
+        </section>
+
+        <section id="database">
+            <h2 data-emoji="🗄️">Database Schema</h2>
+            <h3>User Model</h3>
+            <div class="code-block">
+                <pre>
+{
+  email: String (required),
+  name: String,
+  username: String (required, unique),
+  profilepic: String,
+  coverpic: String,
+  razorpayid: String,
+  razorpaysecret: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+                </pre>
+            </div>
+            
+            <h3>Payment Model</h3>
+            <div class="code-block">
+                <pre>
+{
+  name: String (required),
+  to_user: String (required),
+  oid: String (required), // Razorpay Order ID
+  message: String,
+  amount: Number (required),
+  createdAt: Date,
+  updatedAt: Date,
+  done: Boolean (default: false)
+}
+                </pre>
+            </div>
+        </section>
+
+        <section id="flow">
+            <h2 data-emoji="🔄">Application Flow</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>1. User Registration/Login</h4>
+                    <ul class="feature-list">
+                        <li>User clicks "Login" → Redirects to GitHub OAuth</li>
+                        <li>GitHub authentication → Receive user data</li>
+                        <li>Check if user exists in database</li>
+                        <li>If new user → Create user record</li>
+                        <li>User logged in → Create session</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>2. Profile Setup</h4>
+                    <ul class="feature-list">
+                        <li>User navigates to Dashboard</li>
+                        <li>Updates profile information</li>
+                        <li>Save profile data to database</li>
+                        <li>User profile page becomes active</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>3. Donation Process</h4>
+                    <ul class="feature-list">
+                        <li>Supporter visits user's donation page</li>
+                        <li>Enters donation amount and message</li>
+                        <li>Initiates payment via Razorpay</li>
+                        <li>Payment process → Webhook verification</li>
+                        <li>Mark payment as complete in database</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="api">
+            <h2 data-emoji="🔧">API Endpoints</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Authentication</h4>
+                    <ul class="feature-list">
+                        <li><strong>GET/POST /api/auth/[...nextauth]:</strong> NextAuth.js handlers</li>
+                        <li>Handles GitHub OAuth authentication flow</li>
+                        <li>Session management</li>
+                        <li>User creation/authentication</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Payments</h4>
+                    <ul class="feature-list">
+                        <li><strong>POST /api/razorpay:</strong> Payment webhook</li>
+                        <li>Verifies Razorpay payment signatures</li>
+                        <li>Update payment status in database</li>
+                        <li>Redirect to success page</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="ui">
+            <h2 data-emoji="🎨">UI/UX Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Design Theme</h4>
+                    <ul class="feature-list">
+                        <li><strong>Dark Theme:</strong> Black background with radial gradient</li>
+                        <li><strong>Chai Theme:</strong> Tea-related imagery and branding elements</li>
+                        <li><strong>Gradient Buttons:</strong> Purple to blue gradient buttons</li>
+                        <li><strong>Responsive Design:</strong> Mobile-friendly layout</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Interactive Elements</h4>
+                    <ul class="feature-list">
+                        <li><strong>Animated GIFs:</strong> Tea, coin, and character animations</li>
+                        <li><strong>Toast Notifications:</strong> Success/error messages</li>
+                        <li><strong>Dropdown Menus:</strong> User account management</li>
+                        <li><strong>Loading States:</strong> Payment processing indicators</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="security">
+            <h2 data-emoji="🔒">Security Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Authentication Security</h4>
+                    <ul class="feature-list">
+                        <li><strong>OAuth 2.0:</strong> Secure GitHub authentication</li>
+                        <li><strong>Session Management:</strong> Encrypted session tokens</li>
+                        <li><strong>CSRF Protection:</strong> Built-in NextAuth.js protection</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Payment Security</h4>
+                    <ul class="feature-list">
+                        <li><strong>Webhook Verification:</strong> Razorpay signature validation</li>
+                        <li><strong>Order Verification:</strong> Server-side payment validation</li>
+                        <li><strong>Secure API Keys:</strong> Environment variable protection</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="deployment">
+            <h2 data-emoji="🚀">Deployment Setup</h2>
+            <h3>Environment Variables Required</h3>
+            <div class="code-block">
+                <pre>
+# NextAuth.js
+NEXTAUTH_URL=your-domain.com
+NEXTAUTH_SECRET=your-secret-key
+
+# GitHub OAuth
+GITHUB_ID=your-github-client-id
+GITHUB_SECRET=your-github-client-secret
+
+# Razorpay
+KEY_ID=your-razorpay-key-id
+KEY_SECRET=your-razorpay-key-secret
+
+# Database
+MONGODB_URI=mongodb://localhost:27017/Chai
+
+# Application
+NEXT_PUBLIC_URL=your-domain.com
+                </pre>
+            </div>
+            
+            <h3>Installation Steps</h3>
+            <div class="code-block">
+                <pre>
+# Clone the repository
+git clone &lt;repository-url&gt;
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+
+# Start development server
+npm run dev
+
+# For production
+npm run build
+npm start
+                </pre>
+            </div>
+        </section>
+
+        <section id="pages">
+            <h2 data-emoji="📱">Pages Overview</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>1. Home Page (/)</h4>
+                    <ul class="feature-list">
+                        <li>Landing page with chai theme</li>
+                        <li>Call-to-action buttons</li>
+                        <li>Features showcase</li>
+                        <li>User benefits explanation</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>2. User Profile (/[username])</h4>
+                    <ul class="feature-list">
+                        <li>Personalized donation page</li>
+                        <li>Payment form</li>
+                        <li>Recent supporters list</li>
+                        <li>User information display</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>3. Dashboard (/dashboard)</h4>
+                    <ul class="feature-list">
+                        <li>Profile management</li>
+                        <li>Payment history</li>
+                        <li>Razorpay configuration</li>
+                        <li>Account settings</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>4. Static Pages</h4>
+                    <ul class="feature-list">
+                        <li>/login - GitHub OAuth integration</li>
+                        <li>/about - About the platform</li>
+                        <li>/contact - Contact information</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="business">
+            <h2 data-emoji="🎯">Business Logic</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Revenue Model</h4>
+                    <ul class="feature-list">
+                        <li>Platform takes a small percentage from donations</li>
+                        <li>Users can set up their own Razorpay accounts</li>
+                        <li>Freemium model with premium features</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>User Experience</h4>
+                    <ul class="feature-list">
+                        <li>Simple onboarding with GitHub authentication</li>
+                        <li>Easy-to-share profile URLs</li>
+                        <li>Mobile-optimized payment flow</li>
+                        <li>Real-time payment notifications</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="future">
+            <h2 data-emoji="🔮">Future Enhancements</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Planned Features</h4>
+                    <ul class="feature-list">
+                        <li>Multiple Payment Providers - PayPal, Stripe integration</li>
+                        <li>Social Features - Comments, likes, sharing</li>
+                        <li>Analytics Dashboard - Detailed payment analytics</li>
+                        <li>Custom Themes - User-customizable page themes</li>
+                        <li>Subscription Model - Recurring donations</li>
+                        <li>Mobile App - React Native application</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Technical Improvements</h4>
+                    <ul class="feature-list">
+                        <li>Redis caching for better performance</li>
+                        <li>CDN integration for image optimization</li>
+                        <li>Advanced security features</li>
+                        <li>API rate limiting</li>
+                        <li>Comprehensive testing suite</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <h3>📞 Support & Contact</h3>
+            <div class="contact-links">
+                <a href="https://www.linkedin.com/posts/adityajain2309_nextjs-mongodb-nodejs-activity-7323348242681815040-7Lq9" class="contact-link">LinkedIn Profile</a>
+                <a href="https://github.com/ADITYA9456" class="contact-link">GitHub Profile</a>
+            </div>
+            <p><strong>Developer:</strong> Aditya Jain</p>
+            <p><strong>Tech Stack:</strong> Next.js + Node.js + Express + Tailwind + MongoDB + Razorpay + Auth</p>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                <em>This documentation provides a comprehensive overview of the Chai Express platform. 
+                The project demonstrates modern web development practices with focus on payment integration and user experience.</em>
+            </p>
+            <p style="margin-top: 15px;">Made with ☕ by Aditya Jain</p>
+        </footer>
+    </div>
+
+    <!-- Scroll to top button -->
+    <a href="#" class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add loading effect to cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and sections
+        document.querySelectorAll('.feature-card, .metric-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

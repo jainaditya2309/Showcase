@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildupX - Complete Project Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            --fitness-gradient: linear-gradient(135deg, #10B981, #047857, #065F46, #064E3B);
+            --dark-gradient: linear-gradient(135deg, #1F2937, #374151);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #1F2937;
+            background: #0a0a0a;
+            min-height: 100vh;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* Enhanced background animations */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(4, 120, 87, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 40% 60%, rgba(6, 95, 70, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 70% 30%, rgba(6, 78, 59, 0.15) 0%, transparent 40%);
+            z-index: -2;
+            animation: backgroundFloat 25s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%);
+            background-size: 60px 60px;
+            z-index: -1;
+            opacity: 0.5;
+            animation: patternMove 30s linear infinite;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg) scale(1); 
+                opacity: 1;
+            }
+            25% { 
+                transform: translate(30px, -20px) rotate(1deg) scale(1.02); 
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(-15px, 15px) rotate(-0.5deg) scale(0.98); 
+                opacity: 1;
+            }
+            75% { 
+                transform: translate(-25px, -10px) rotate(0.8deg) scale(1.01); 
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes patternMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at top left, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at bottom right, rgba(4, 120, 87, 0.05) 0%, transparent 50%);
+            border-radius: var(--border-radius);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Floating particles */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(16, 185, 129, 0.6);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(4, 120, 87, 0.6);
+            animation-duration: 20s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(6, 95, 70, 0.6);
+            animation-duration: 18s;
+        }
+
+        .particle:nth-child(4n) {
+            background: rgba(6, 78, 59, 0.6);
+            animation-duration: 22s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: 
+                linear-gradient(135deg, #10B981 0%, #047857 25%, #065F46 75%, #064E3B 100%),
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            margin: -20px -20px 40px -20px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(16, 185, 129, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%),
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            transform: translateX(-100%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        /* Enhanced shimmer animation */
+        @keyframes shimmer {
+            0% { 
+                transform: translateX(-100%) translateY(0%); 
+                opacity: 0;
+            }
+            50% { 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(100%) translateY(0%); 
+                opacity: 0;
+            }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, #ffffff, #d1fae5, #a7f3d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+            letter-spacing: -0.02em;
+        }
+
+        @keyframes textGlow {
+            from { 
+                filter: brightness(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); 
+            }
+            to { 
+                filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); 
+            }
+        }
+
+        .header p {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 400;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0 0 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .badge:hover::before {
+            left: 100%;
+        }
+
+        .badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: white;
+        }
+
+        .badge.nextjs { 
+            background: linear-gradient(135deg, #000000, #333333);
+        }
+        .badge.tailwind { 
+            background: linear-gradient(135deg, #06B6D4, #0891B2);
+        }
+        .badge.mongodb { 
+            background: linear-gradient(135deg, #47A248, #3E8635);
+        }
+        .badge.fitness { 
+            background: linear-gradient(135deg, #10B981, #047857);
+        }
+        .badge.responsive { 
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+            margin: 50px 0 30px 0;
+            padding-bottom: 15px;
+            border-bottom: 4px solid transparent;
+            background: linear-gradient(90deg, #10B981, #047857) padding-box,
+                        linear-gradient(90deg, #10B981, #047857) border-box;
+            border-image: linear-gradient(90deg, #10B981, #047857) 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: -0.01em;
+            text-rendering: optimizeLegibility;
+        }
+
+        h2::before {
+            content: attr(data-emoji);
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #10B981, #047857);
+            padding: 10px 14px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 
+                0 4px 15px rgba(16, 185, 129, 0.3),
+                0 2px 8px rgba(16, 185, 129, 0.2);
+            filter: brightness(1.1);
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            color: #374151;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 600;
+            margin: 30px 0 20px 0;
+            position: relative;
+            padding-left: 20px;
+            letter-spacing: -0.005em;
+            text-rendering: optimizeLegibility;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--fitness-gradient);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #FAFBFC, #F1F5F9);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--fitness-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .feature-card h4 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4B5563;
+            transition: color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.005em;
+            text-rendering: optimizeLegibility;
+        }
+
+        .feature-list li:hover {
+            color: #1F2937;
+        }
+
+        .feature-list li::before {
+            content: "💪";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #10B981, #047857);
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .feature-list li strong {
+            color: #059669;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .toc {
+            background: linear-gradient(135deg, #FAFBFC, #F8FAFC);
+            padding: 35px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px solid #E5E7EB;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .toc::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--fitness-gradient);
+        }
+
+        .toc h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .toc h3::before {
+            display: none;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 40px;
+        }
+
+        .toc li {
+            padding: 10px 0;
+            break-inside: avoid;
+        }
+
+        .toc a {
+            color: #10B981;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .toc a::before {
+            content: '→';
+            color: #047857;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .toc a:hover {
+            color: #047857;
+            background-color: rgba(16, 185, 129, 0.1);
+            transform: translateX(5px);
+        }
+
+        .toc a:hover::before {
+            transform: translateX(3px);
+        }
+
+        .code-block {
+            background: linear-gradient(135deg, #1F2937, #111827);
+            color: #F9FAFB;
+            padding: 30px;
+            border-radius: 15px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            margin: 30px 0;
+            overflow-x: auto;
+            position: relative;
+            border: 1px solid #374151;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(90deg, #EF4444, #F59E0B, #10B981);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .code-block::after {
+            content: '● ● ●';
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            color: #1F2937;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+        }
+
+        .code-block pre {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--dark-gradient);
+            margin: 60px -20px -20px -20px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .footer h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .footer h3::before {
+            display: none;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            background: linear-gradient(135deg, #10B981, #047857);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .contact-link:hover::before {
+            left: 100%;
+        }
+
+        .contact-link:hover {
+            background: linear-gradient(135deg, #059669, #065F46);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer p {
+            font-family: 'Inter', sans-serif;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .footer p strong {
+            color: #6EE7B7;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 40px 0;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .toc ul {
+                columns: 1;
+            }
+            
+            .contact-links {
+                gap: 15px;
+            }
+            
+            .contact-link {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .badges {
+                gap: 10px;
+            }
+            
+            .badge {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+            
+            .feature-card {
+                padding: 25px 20px;
+            }
+            
+            .code-block {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--fitness-gradient);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            transition: var(--transition);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.1s; }
+        section:nth-child(3) { animation-delay: 0.2s; }
+        section:nth-child(4) { animation-delay: 0.3s; }
+        section:nth-child(5) { animation-delay: 0.4s; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--fitness-gradient);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #059669, #065F46);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Floating particles -->
+        <div class="floating-particles">
+            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+            <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+            <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+            <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+            <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+            <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+        </div>
+
+        <header class="header">
+            <h1>💪 BuildupX</h1>
+            <p>Complete Project Documentation - Modern Fitness & Health Platform</p>
+            <div class="badges">
+                <a href="https://nextjs.org/" class="badge nextjs">Next.js 15</a>
+                <a href="https://tailwindcss.com/" class="badge tailwind">Tailwind CSS</a>
+                <a href="https://www.mongodb.com/atlas" class="badge mongodb">MongoDB Atlas</a>
+                <a href="https://ai.google.dev/" class="badge fitness">Gemini API</a>
+                <a href="#" class="badge responsive">PWA</a>
+            </div>
+        </header>
+
+        <div class="toc">
+            <h3>📋 Table of Contents</h3>
+            <ul>
+                <li><a href="#overview">Project Overview</a></li>
+                <li><a href="#tech-stack">Tech Stack</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#structure">Project Structure</a></li>
+                <li><a href="#installation">Installation & Setup</a></li>
+                <li><a href="#firebase">Firebase Configuration</a></li>
+                <li><a href="#components">Components</a></li>
+                <li><a href="#routing">Routing System</a></li>
+                <li><a href="#data">Data Management</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#deployment">Deployment</a></li>
+                <li><a href="#usage">Usage Guide</a></li>
+                <li><a href="#future">Future Enhancements</a></li>
+            </ul>
+        </div>
+
+        <section id="overview">
+            <h2 data-emoji="🎯">Project Overview</h2>
+            <p><strong>BuildupX</strong> is a comprehensive fitness and health platform that helps users in their fitness journey. This platform is built with modern web technologies and provides a complete fitness ecosystem.</p>
+            <br>
+            <p><strong>Core Philosophy:</strong> "Build Yourself, Build Your Future" - BuildupX aims to help users become physically and mentally strong through comprehensive fitness solutions.</p>
+        </section>
+
+        <section id="tech-stack">
+            <h2 data-emoji="🛠️">Tech Stack</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Frontend Technologies</h4>
+                    <ul class="feature-list">
+                        <li><strong>Next.js 14:</strong> React framework with server-side rendering</li>
+                        <li><strong>React 18:</strong> Modern JavaScript library for UI</li>
+                        <li><strong>Tailwind CSS:</strong> Utility-first CSS framework</li>
+                        <li><strong>JavaScript ES6+:</strong> Modern JavaScript features</li>
+                        <li><strong>PWA Support:</strong> Progressive Web App capabilities</li>
+                        <li><strong>Responsive Design:</strong> Mobile-first approach</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Backend & Database</h4>
+                    <ul class="feature-list">
+                        <li><strong>MongoDB Atlas:</strong> Cloud-hosted NoSQL database</li>
+                        <li><strong>Gemini API:</strong> AI-powered features integration</li>
+                        <li><strong>NextAuth.js:</strong> Authentication for Next.js</li>
+                        <li><strong>API Routes:</strong> Built-in API endpoints</li>
+                        <li><strong>Firebase Hosting:</strong> Web app hosting</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Development Tools</h4>
+                    <ul class="feature-list">
+                        <li><strong>Create React App:</strong> Project bootstrapping</li>
+                        <li><strong>npm/yarn:</strong> Package management</li>
+                        <li><strong>Git:</strong> Version control</li>
+                        <li><strong>VS Code:</strong> Development environment</li>
+                        <li><strong>Chrome DevTools:</strong> Debugging tools</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <h2 data-emoji="🔥">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>💪 Workout Management</h4>
+                    <ul class="feature-list">
+                        <li><strong>Exercise Library:</strong> Comprehensive workout database</li>
+                        <li><strong>Custom Workouts:</strong> Create personalized workout plans</li>
+                        <li><strong>Progress Tracking:</strong> Monitor fitness improvements</li>
+                        <li><strong>Exercise Instructions:</strong> Detailed exercise guidelines</li>
+                        <li><strong>Workout History:</strong> Track previous workout sessions</li>
+                        <li><strong>Exercise Categories:</strong> Organized by muscle groups</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📊 Progress Analytics</h4>
+                    <ul class="feature-list">
+                        <li><strong>Visual Charts:</strong> Graphical progress representation</li>
+                        <li><strong>Performance Metrics:</strong> Track key fitness indicators</li>
+                        <li><strong>Goal Setting:</strong> Set and monitor fitness goals effectively</li>
+                        <li><strong>Achievement Badges:</strong> Milestone celebrations</li>
+                        <li><strong>Weekly Reports:</strong> Comprehensive progress summaries</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🍎 Nutrition Tracking</h4>
+                    <ul class="feature-list">
+                        <li><strong>Calorie Counter:</strong> Daily calorie intake monitoring</li>
+                        <li><strong>Meal Planning:</strong> Nutritious meal suggestions</li>
+                        <li><strong>Food Database:</strong> Extensive nutrition information</li>
+                        <li><strong>Macro Tracking:</strong> Protein, carbs, fats monitoring</li>
+                        <li><strong>Hydration Tracking:</strong> Daily water intake goals</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>👤 User Profile Management</h4>
+                    <ul class="feature-list">
+                        <li><strong>Personal Dashboard:</strong> Centralized user interface</li>
+                        <li><strong>Profile Customization:</strong> Personalized user experience</li>
+                        <li><strong>Body Measurements:</strong> Track physical changes</li>
+                        <li><strong>Health Data:</strong> Comprehensive health monitoring</li>
+                        <li><strong>Preferences:</strong> Customizable app settings</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🎯 Goal Setting & Challenges</h4>
+                    <ul class="feature-list">
+                        <li><strong>SMART Goals:</strong> Specific, measurable fitness objectives</li>
+                        <li><strong>Daily Challenges:</strong> Fun fitness activities</li>
+                        <li><strong>Achievement System:</strong> Reward-based motivation</li>
+                        <li><strong>Progress Milestones:</strong> Celebration of achievements</li>
+                        <li><strong>Community Challenges:</strong> Group fitness activities</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📱 Mobile-First Design</h4>
+                    <ul class="feature-list">
+                        <li><strong>Responsive Layout:</strong> Optimized for all devices</li>
+                        <li><strong>Touch-Friendly:</strong> Mobile-optimized interactions</li>
+                        <li><strong>Fast Loading:</strong> Optimized performance</li>
+                        <li><strong>Offline Support:</strong> Basic functionality without internet</li>
+                        <li><strong>PWA Ready:</strong> Progressive Web App capabilities</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2 data-emoji="📁">Project Structure</h2>
+            <div class="code-block">
+                <pre>
+BuildupX/
+├── public/                       # Static public assets
+│   ├── index.html               # Main HTML template
+│   ├── manifest.json            # PWA manifest
+│   └── favicon.ico              # Site favicon
+├── src/                         # Source code directory
+│   ├── components/              # Reusable React components
+│   │   ├── Header.js            # Navigation header
+│   │   ├── Footer.js            # Site footer
+│   │   ├── WorkoutCard.js       # Workout display component
+│   │   ├── ProgressChart.js     # Progress visualization
+│   │   └── ExerciseList.js      # Exercise listing component
+│   ├── pages/                   # Page components
+│   │   ├── Home.js              # Landing page
+│   │   ├── Dashboard.js         # User dashboard
+│   │   ├── Workouts.js          # Workout management
+│   │   ├── Nutrition.js         # Nutrition tracking
+│   │   ├── Progress.js          # Progress analytics
+│   │   └── Profile.js           # User profile
+│   ├── services/                # External service integrations
+│   │   ├── firebase.js          # Firebase configuration
+│   │   ├── auth.js              # Authentication service
+│   │   └── database.js          # Database operations
+│   ├── utils/                   # Utility functions
+│   │   ├── calculations.js      # Fitness calculations
+│   │   ├── validators.js        # Form validation
+│   │   └── helpers.js           # General helper functions
+│   ├── styles/                  # CSS styling files
+│   │   ├── global.css           # Global styles
+│   │   ├── components.css       # Component-specific styles
+│   │   └── responsive.css       # Responsive design
+│   ├── contexts/                # React contexts
+│   │   ├── AuthContext.js       # Authentication context
+│   │   └── UserContext.js       # User data context
+│   ├── hooks/                   # Custom React hooks
+│   │   ├── useAuth.js           # Authentication hook
+│   │   └── useWorkout.js        # Workout management hook
+│   ├── App.js                   # Main App component
+│   ├── App.css                  # App-specific styles
+│   └── index.js                 # Application entry point
+├── package.json                 # Project dependencies
+├── package-lock.json            # Dependency lock file
+├── .gitignore                   # Git ignore rules
+└── README.md                    # Project documentation
+                </pre>
+            </div>
+        </section>
+
+        <section id="installation">
+            <h2 data-emoji="🚀">Installation & Setup</h2>
+            <h3>Prerequisites</h3>
+            <ul class="feature-list">
+                <li><strong>Node.js 16.x or later</strong></li>
+                <li><strong>npm or yarn package manager</strong></li>
+                <li><strong>Firebase account</strong></li>
+                <li><strong>Git version control</strong></li>
+            </ul>
+            
+            <h3>Local Development Setup</h3>
+            <div class="code-block">
+                <pre>
+# Clone the repository
+git clone https://github.com/ADITYA9456/BuildupX.git
+cd BuildupX
+
+# Install dependencies
+npm install
+# or
+yarn install
+
+# Create environment file
+cp .env.example .env.local
+
+# Start development server
+npm start
+# or
+yarn start
+
+# Open in browser
+# Navigate to http://localhost:3000
+                </pre>
+            </div>
+        </section>
+
+        <section id="firebase">
+            <h2 data-emoji="🔧">Firebase Configuration</h2>
+            <h3>Firebase Project Setup</h3>
+            <div class="code-block">
+                <pre>
+// firebase.js configuration
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+
+const firebaseConfig = {
+  apiKey: "your-api-key",
+  authDomain: "your-project.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-project.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "your-app-id"
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+                </pre>
+            </div>
+            
+            <h3>Environment Variables</h3>
+            <div class="code-block">
+                <pre>
+REACT_APP_FIREBASE_API_KEY=your-api-key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=your-project-id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=123456789
+REACT_APP_FIREBASE_APP_ID=your-app-id
+                </pre>
+            </div>
+        </section>
+
+        <section id="components">
+            <h2 data-emoji="🧩">Core Components</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Header Component</h4>
+                    <ul class="feature-list">
+                        <li><strong>Purpose:</strong> Main navigation component</li>
+                        <li>Responsive navigation menu</li>
+                        <li>User authentication status</li>
+                        <li>Quick access to main features</li>
+                        <li>Mobile hamburger menu</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Dashboard Component</h4>
+                    <ul class="feature-list">
+                        <li><strong>Purpose:</strong> Central user interface</li>
+                        <li>Overview of user progress</li>
+                        <li>Quick action buttons</li>
+                        <li>Recent activity display</li>
+                        <li>Goal progress indicators</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>WorkoutCard Component</h4>
+                    <ul class="feature-list">
+                        <li><strong>Purpose:</strong> Individual workout display</li>
+                        <li>Exercise thumbnails and detailed descriptions</li>
+                        <li>Difficulty level indicators</li>
+                        <li>Duration and calorie information tracking</li>
+                        <li>Interactive action buttons</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>ProgressChart Component</h4>
+                    <ul class="feature-list">
+                        <li><strong>Purpose:</strong> Visual progress tracking</li>
+                        <li>Chart.js integration</li>
+                        <li>Multiple chart types</li>
+                        <li>Interactive data visualization</li>
+                        <li>Export functionality</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="routing">
+            <h2 data-emoji="🗺️">Routing System</h2>
+            <div class="code-block">
+                <pre>
+// App.js routing configuration
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import Workouts from './pages/Workouts';
+import Nutrition from './pages/Nutrition';
+import Progress from './pages/Progress';
+import Profile from './pages/Profile';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ProtectedRoute from './components/ProtectedRoute';
+
+function App() {
+  return (
+    &lt;Router&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+        &lt;Route path="/login" element={&lt;Login /&gt;} /&gt;
+        &lt;Route path="/register" element={&lt;Register /&gt;} /&gt;
+        &lt;Route path="/dashboard" element={
+          &lt;ProtectedRoute&gt;
+            &lt;Dashboard /&gt;
+          &lt;/ProtectedRoute&gt;
+        } /&gt;
+        &lt;Route path="/workouts" element={
+          &lt;ProtectedRoute&gt;
+            &lt;Workouts /&gt;
+          &lt;/ProtectedRoute&gt;
+        } /&gt;
+        &lt;Route path="/nutrition" element={
+          &lt;ProtectedRoute&gt;
+            &lt;Nutrition /&gt;
+          &lt;/ProtectedRoute&gt;
+        } /&gt;
+        &lt;Route path="/progress" element={
+          &lt;ProtectedRoute&gt;
+            &lt;Progress /&gt;
+          &lt;/ProtectedRoute&gt;
+        } /&gt;
+        &lt;Route path="/profile" element={
+          &lt;ProtectedRoute&gt;
+            &lt;Profile /&gt;
+          &lt;/ProtectedRoute&gt;
+        } /&gt;
+      &lt;/Routes&gt;
+    &lt;/Router&gt;
+  );
+}
+                </pre>
+            </div>
+        </section>
+
+        <section id="data">
+            <h2 data-emoji="🗃️">Data Management</h2>
+            <h3>Firestore Database Structure</h3>
+            <div class="code-block">
+                <pre>
+// Users Collection
+users: {
+  [userId]: {
+    email: string,
+    displayName: string,
+    photoURL: string,
+    age: number,
+    height: number,
+    weight: number,
+    fitnessLevel: string,
+    goals: [string],
+    createdAt: timestamp,
+    updatedAt: timestamp
+  }
+}
+
+// Workouts Collection
+workouts: {
+  [workoutId]: {
+    userId: string,
+    name: string,
+    exercises: [
+      {
+        name: string,
+        sets: number,
+        reps: number,
+        weight: number,
+        duration: number
+      }
+    ],
+    date: timestamp,
+    duration: number,
+    caloriesBurned: number
+  }
+}
+
+// Nutrition Collection
+nutrition: {
+  [entryId]: {
+    userId: string,
+    date: timestamp,
+    meals: [
+      {
+        name: string,
+        calories: number,
+        protein: number,
+        carbs: number,
+        fat: number,
+        time: timestamp
+      }
+    ],
+    totalCalories: number,
+    waterIntake: number
+  }
+}
+                </pre>
+            </div>
+        </section>
+
+        <section id="authentication">
+            <h2 data-emoji="🔐">Authentication</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Firebase Auth Integration</h4>
+                    <ul class="feature-list">
+                        <li><strong>Email/Password:</strong> Traditional authentication</li>
+                        <li><strong>Google Sign-In:</strong> Social authentication</li>
+                        <li><strong>Password Reset:</strong> Email-based recovery</li>
+                        <li><strong>Email Verification:</strong> Account verification</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Authentication Flow</h4>
+                    <ul class="feature-list">
+                        <li>User registration/login</li>
+                        <li>Email verification (optional)</li>
+                        <li>Profile creation</li>
+                        <li>Dashboard access</li>
+                        <li>Session management</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Protected Routes</h4>
+                    <ul class="feature-list">
+                        <li><strong>/dashboard:</strong> User dashboard</li>
+                        <li><strong>/workouts:</strong> Workout management</li>
+                        <li><strong>/nutrition:</strong> Nutrition tracking</li>
+                        <li><strong>/progress:</strong> Progress analytics</li>
+                        <li><strong>/profile:</strong> User profile</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="deployment">
+            <h2 data-emoji="🚀">Deployment</h2>
+            <h3>Firebase Hosting (Recommended)</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Deployment Steps</h4>
+                    <ul class="feature-list">
+                        <li>Build the project - npm run build</li>
+                        <li>Install Firebase CLI</li>
+                        <li>Initialize Firebase hosting</li>
+                        <li>Deploy to Firebase</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Alternative Platforms</h4>
+                    <ul class="feature-list">
+                        <li><strong>Netlify:</strong> Git-based deployment</li>
+                        <li><strong>Vercel:</strong> React-optimized hosting</li>
+                        <li><strong>GitHub Pages:</strong> Free static hosting</li>
+                        <li><strong>Heroku:</strong> Full-stack deployment</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Deployment Commands</h3>
+            <div class="code-block">
+                <pre>
+# Build for production
+npm run build
+
+# Install Firebase CLI
+npm install -g firebase-tools
+
+# Login to Firebase
+firebase login
+
+# Initialize project
+firebase init hosting
+
+# Deploy to Firebase
+firebase deploy
+
+# Custom domain setup
+firebase hosting:channel:deploy live --expires 7d
+                </pre>
+            </div>
+        </section>
+
+        <section id="usage">
+            <h2 data-emoji="📖">Usage Guide</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>For Fitness Enthusiasts</h4>
+                    <ul class="feature-list">
+                        <li><strong>Getting Started:</strong> Create account and complete profile setup</li>
+                        <li>Set fitness goals and personal preferences</li>
+                        <li>Browse workout library</li>
+                        <li>Track daily workouts</li>
+                        <li>Monitor progress over time</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>For Beginners</h4>
+                    <ul class="feature-list">
+                        <li><strong>Onboarding:</strong> Guided setup process</li>
+                        <li>Beginner-friendly workout plans</li>
+                        <li>Exercise instructions and tutorial videos</li>
+                        <li>Gradual progression tracking</li>
+                        <li>Safety tips and comprehensive guidelines</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>For Advanced Users</h4>
+                    <ul class="feature-list">
+                        <li><strong>Custom Workouts:</strong> Create advanced routines</li>
+                        <li>Detailed analytics and performance metrics</li>
+                        <li>Progressive overload tracking</li>
+                        <li>Performance optimization tools</li>
+                        <li>Advanced goal setting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="future">
+            <h2 data-emoji="🔮">Future Enhancements</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Planned Features</h4>
+                    <ul class="feature-list">
+                        <li>Social features and community integration</li>
+                        <li>Personal trainer integration</li>
+                        <li>Wearable device connectivity</li>
+                        <li>AI-powered workout recommendations</li>
+                        <li>Video workout streaming</li>
+                        <li>Nutrition meal planning</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Technical Improvements</h4>
+                    <ul class="feature-list">
+                        <li>TypeScript migration</li>
+                        <li>Unit testing implementation</li>
+                        <li>Performance optimization</li>
+                        <li>PWA enhancement</li>
+                        <li>Offline functionality</li>
+                        <li>Push notifications</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>Mobile App Development</h4>
+                    <ul class="feature-list">
+                        <li>React Native app</li>
+                        <li>Native mobile features</li>
+                        <li>App store deployment</li>
+                        <li>Cross-platform sync</li>
+                        <li>Mobile-specific UI/UX</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <h3>📞 Support & Contact</h3>
+            <div class="contact-links">
+                <a href="https://github.com/ADITYA9456/BuildupX" class="contact-link">GitHub Repository</a>
+                <a href="https://github.com/ADITYA9456" class="contact-link">GitHub Profile</a>
+            </div>
+            <p><strong>Developer:</strong> Aditya Jain</p>
+            <p><strong>Tech Stack:</strong> Next.js + Tailwind + MongoDB Atlas + Gemini API + Auth + PWA</p>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                <em>This documentation provides a comprehensive overview of the BuildupX fitness platform. 
+                The project demonstrates modern Next.js development with MongoDB Atlas backend integration.</em>
+            </p>
+            <p style="margin-top: 15px;">Made with 💪 by Aditya Jain</p>
+        </footer>
+    </div>
+
+    <!-- Scroll to top button -->
+    <a href="#" class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add loading effect to cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and sections
+        document.querySelectorAll('.feature-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
