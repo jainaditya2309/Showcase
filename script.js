@@ -6,8 +6,8 @@ const projects = [
         title: "Netflix Clone",
         image: "img/netfilx.png",
         video: "video/netfilx.mp4",
-        liveLink: "https://jainaditya2309.github.io/Netflix-Clone-/",
-        githubLink: "https://github.com/jainaditya2309/Netflix-Clone-",
+        liveLink: "https://jainaditya2309.github.io/Netflix/",
+        githubLink: "https://github.com/jainaditya2309/Netflix",
         tech: "HTML, CSS, JS"
     },
     {
