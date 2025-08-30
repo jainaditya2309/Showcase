@@ -6,8 +6,8 @@ const projects = [
         title: "Netflix Clone",
         image: "img/netfilx.png",
         video: "video/netfilx.mp4",
-        liveLink: "https://aditya9456.github.io/Netflix-Clone-/",
-        githubLink: "https://github.com/ADITYA9456/Netflix-Clone-",
+        liveLink: "https://jainaditya2309.github.io/Netflix-Clone-/",
+        githubLink: "https://github.com/jainaditya2309/Netflix-Clone-",
         tech: "HTML, CSS, JS"
     },
     {
@@ -15,8 +15,8 @@ const projects = [
         title: "Twitter Clone",
         image: "img/twiter.png",
         video: "video/twiter.mp4",
-        liveLink: "https://aditya9456.github.io/twiter-clone/",
-        githubLink: "https://github.com/ADITYA9456/twiter-clone",
+        liveLink: "https://jainaditya2309.github.io/Twiter-clone/",
+        githubLink: "https://github.com/jainaditya2309/Twiter-clone",
         tech: "HTML, Tailwind CSS"
     },
     
@@ -26,8 +26,8 @@ const projects = [
         title: "WindUp",
         image: "img/windup.png",
         video: "video/windup.mp4",
-        liveLink: "https://aditya9456.github.io/windup/",
-        githubLink: "https://github.com/ADITYA9456/windup",
+        liveLink: "https://jainaditya2309.github.io/Wind-Up/",
+        githubLink: "https://github.com/jainaditya2309/Wind-UP",
         tech: "HTML, CSS, JS"
     },
     {
@@ -35,8 +35,8 @@ const projects = [
         title: "Click Cart",
         image: "img/click cart.png",
         video: "video/click cart.mp4",
-        liveLink: "https://aditya9456.github.io/Click-Cart/",
-        githubLink: "https://github.com/ADITYA9456/Click-Cart",
+        liveLink: "https://jainaditya2309.github.io/Click-cart/",
+        githubLink: "https://github.com/jainaditya2309/Click-cart",
         tech: "HTML, CSS, JS"
     },
     {
@@ -44,8 +44,8 @@ const projects = [
         title: "Urban Eats",
         image: "img/urban eats.png",
         video: "video/urbaneat.mp4",
-        liveLink: "https://aditya9456.github.io/Urban-Eats/",
-        githubLink: "https://github.com/ADITYA9456/Urban-Eats",
+        liveLink: "https://jainaditya2309.github.io/Urban-eats/",
+        githubLink: "https://github.com/jainaditya2309/Urban-eats",
         tech: "HTML, CSS, JS"
     },
     
@@ -55,8 +55,8 @@ const projects = [
         title: "Password Manager",
         image: "img/vaultx.png",
         video: "video/pasward.mp4",
-        liveLink: "https://caultx.vercel.app/",
-        githubLink: "https://github.com/ADITYA9456/VaultX",
+        liveLink: "https://vault-x-six.vercel.app/",
+        githubLink: "https://github.com/jainaditya2309/vault-X",
         tech: "React, Tailwind, MongoDB, LocalStorage"
     },
     {
@@ -64,8 +64,8 @@ const projects = [
         title: "Todo List",
         image: "img/todo.png",
         video: "video/todo.mp4",
-        liveLink: "https://todo-list-three-delta-39.vercel.app/",
-        githubLink: "https://github.com/ADITYA9456/Todo-list",
+        liveLink: "https://todo-list-kappa-gules.vercel.app/",
+        githubLink: "https://github.com/jainaditya2309/TODO-list",
         tech: "React, Tailwind, MongoDB, LocalStorage"
     },
     
@@ -76,7 +76,7 @@ const projects = [
         image: "img/url.png",
         video: "video/url.mp4",
         liveLink: "https://urlite-eight.vercel.app/",
-        githubLink: "https://github.com/ADITYA9456/URLite",
+        githubLink: "https://github.com/jainaditya2309/URL-lite",
         tech: "Next.js, Node, Express, Tailwind, MongoDB"
     },
     {
@@ -85,7 +85,7 @@ const projects = [
         image: "img/link.png",
         video: "video/linktree.mp4",
         liveLink: "#",
-        githubLink: "https://github.com/ADITYA9456/LinkNest",
+        githubLink: "https://github.com/jainaditya2309/Link-Nest-",
         docsLink: "documents/linknest.html",
         tech: "Next.js, Node, Express, Tailwind, MongoDB"
     },
@@ -96,8 +96,8 @@ const projects = [
         title: "ChaiExpress",
         image: "img/chai.png",
         video: "video/chai.mp4",
-        liveLink: "https://chai-express-lime.vercel.app/",
-        githubLink: "https://github.com/ADITYA9456/chai-Express",
+        liveLink: "https://chai-express-six.vercel.app/",
+        githubLink: "https://github.com/jainaditya2309/Chai-Express",
         docsLink: "documents/chai_express.html",
         tech: "Next.js, Node, Express, Tailwind, MongoDB, Razorpay, Auth"
     },
@@ -109,7 +109,7 @@ const projects = [
         image: "img/multimantra.png",
         video: "video/multimantra.mp4",
         liveLink: "#",
-        githubLink: "https://github.com/ADITYA9456/MultiMantra",
+        githubLink: "https://github.com/jainaditya2309/Multi-Mantra-",
         docsLink: "documents/multimantra.html",
         tech: "Next.js, Node, Express, Tailwind, MongoDB, Razorpay, Auth, Chatbot (Rule-based)"
     },
@@ -119,7 +119,7 @@ const projects = [
         image: "img/buildup.png",
         video: "video/buildupx.mp4",
         liveLink: "#",
-        githubLink: "https://github.com/ADITYA9456/BuildupX",
+        githubLink: "https://github.com/jainaditya2309/BuildupX",
         docsLink: "documents/buildupx.html",
         tech: "Next.js, Tailwind, Mongo Atlas, Gemini API, Auth,PWA "
     }
